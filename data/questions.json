@@ -1,9 +1,27 @@
-{
-  "questions": [
-    {
-      "category": "history",
-      "question": "What year is it?",
-      "answer": 2022
-    }
-  ]
-}
+[
+  {
+    "category": "history",
+    "question": "Question 1",
+    "answers": ["2022"]
+  },
+  {
+    "category": "history",
+    "question": "Question 2",
+    "answers": ["2022", "A dog jumps"]
+  },
+  {
+    "category": "history",
+    "question": "Question 3",
+    "answers": ["2022"]
+  },
+  {
+    "category": "history",
+    "question": "Question 4",
+    "answers": ["2022"]
+  },
+  {
+    "category": "history",
+    "question": "Question 5",
+    "answers": ["2022"]
+  }
+]
