@@ -1,6 +1,6 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
-const SessionManager = require('../lib/SessionManager');
-const PoolManager = require('../lib/PoolManager');
+const SessionManager = require('~/lib/SessionManager');
+const PoolManager = require('~/lib/PoolManager');
 
 const sessionManager = new SessionManager();
 

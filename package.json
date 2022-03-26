@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "dev": "nodemon index.js",
     "start": "node index.js",
     "lint": "eslint src test",
     "lint:fix": "npm run lint -- --fix",
@@ -16,12 +17,17 @@
     "discord-api-types": "0.26.1",
     "discord.js": "13.6.0",
     "dotenv": "16.0.0",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "module-alias": "2.2.2"
   },
   "devDependencies": {
     "eslint": "8.11.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
+    "nodemon": "2.0.15",
     "prettier": "2.6.1"
+  },
+  "_moduleAliases": {
+    "~": "."
   }
 }

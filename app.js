@@ -1,5 +1,6 @@
 const fs = require('fs');
 const {Client, Collection, Intents} = require('discord.js');
+require('module-alias/register');
 require('dotenv').config();
 
 function initClient() {
