@@ -1,27 +1,27 @@
 [
   {
     "category": "history",
-    "question": "Question 1",
-    "answers": ["2022"]
+    "question": "Which year did the Soviet Union finally collapse?",
+    "answers": ["1991"]
   },
   {
     "category": "history",
-    "question": "Question 2",
-    "answers": ["2022", "A dog jumps"]
+    "question": "Which country was first to conduct a manned mission on the Moon?",
+    "answers": ["United States", "United States of America", "US", "U.S.", "USA", "U.S.A", "America", "Murica"]
   },
   {
     "category": "history",
-    "question": "Question 3",
-    "answers": ["2022"]
+    "question": "The assination of which political figure contributed directly to the start of World War 1?",
+    "answers": ["Archduke Franz Ferdinand", "Archduke Ferdinand", "Franz Ferdinand", "Ferdinand"]
   },
   {
     "category": "history",
-    "question": "Question 4",
-    "answers": ["2022"]
+    "question": "The Aztec Empire existed in which modern day country?",
+    "answers": ["Mexico"]
   },
   {
     "category": "history",
-    "question": "Question 5",
-    "answers": ["2022"]
+    "question": "Which year did Napoleon Bonaparte I die in?",
+    "answers": ["1821"]
   }
 ]
