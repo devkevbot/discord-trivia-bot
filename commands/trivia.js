@@ -32,9 +32,8 @@ module.exports = {
       return;
     }
 
-    sessionManager.createSession(interaction.user.id);
-
     await interaction.reply('Starting session!');
+    sessionManager.createSession(interaction.user.id);
 
     const category = interaction.options.getString('category');
     const count = interaction.options.getNumber('count');
@@ -45,6 +44,7 @@ module.exports = {
       await triviaSession.askQuestion();
     }
 
+    await triviaSession.endSession();
     sessionManager.deleteSession(interaction.user.id);
   },
 };
