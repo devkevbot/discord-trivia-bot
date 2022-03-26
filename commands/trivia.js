@@ -22,6 +22,26 @@ module.exports = {
         .setDescription('The number of questions')
         .setRequired(true)
         .addChoice('5', 5)
+    )
+    .addNumberOption((option) =>
+      option
+        .setName('duration')
+        .setDescription(
+          'The amount of time given to answer a question, in seconds'
+        )
+        .setRequired(true)
+        .addChoice('10', 10)
+        .addChoice('20', 20)
+        .addChoice('30', 30)
+    )
+    .addNumberOption((option) =>
+      option
+        .setName('delay')
+        .setDescription('The time between questions, in seconds')
+        .setRequired(true)
+        .addChoice('10', 10)
+        .addChoice('20', 20)
+        .addChoice('30', 30)
     ),
   async execute(interaction) {
     if (sessionManager.sessionExists(interaction.user.id)) {
@@ -35,16 +55,40 @@ module.exports = {
     await interaction.reply('Starting session!');
     sessionManager.createSession(interaction.user.id);
 
-    const category = interaction.options.getString('category');
-    const count = interaction.options.getNumber('count');
+    const [category, count, answerTimeInSeconds, questionDelayInSeconds] =
+      getInputArguments(interaction);
+
     const questions = PoolManager.generateBatch(category, count);
 
-    const triviaSession = new TriviaSession(interaction, questions);
+    const triviaSession = new TriviaSession(
+      interaction,
+      questions,
+      answerTimeInSeconds
+    );
+
     while (triviaSession.hasNextQuestion()) {
       await triviaSession.askQuestion();
+      await wait(questionDelayInSeconds);
     }
 
     await triviaSession.endSession();
     sessionManager.deleteSession(interaction.user.id);
   },
 };
+
+/**
+ * Wait for s seconds.
+ * @param {number} s The amount of seconds to wait
+ */
+function wait(s) {
+  return new Promise((resolve) => setTimeout(resolve, s * 1000));
+}
+
+function getInputArguments(interaction) {
+  return [
+    interaction.options.getString('category'),
+    interaction.options.getNumber('count'),
+    interaction.options.getNumber('duration'),
+    interaction.options.getNumber('delay'),
+  ];
+}
