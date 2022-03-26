@@ -20,7 +20,9 @@ rest
   .put(
     Routes.applicationGuildCommands(
       process.env.CLIENT_ID,
-      process.env.GUILD_ID
+      process.env.TEST === 'true'
+        ? process.env.TEST_GUILD_ID
+        : process.env.SUNNY_GUILD_ID
     ),
     {
       body: commands,
