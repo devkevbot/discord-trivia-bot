@@ -3,8 +3,6 @@ const SessionManager = require('~/lib/SessionManager');
 const TriviaSession = require('~/lib/TriviaSession');
 const PoolManager = require('~/lib/PoolManager');
 
-const sessionManager = new SessionManager();
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('trivia')
@@ -44,45 +42,30 @@ module.exports = {
         .addChoice('30', 30)
     ),
   async execute(interaction) {
-    if (sessionManager.sessionExists(interaction.user.id)) {
+    const channelID = interaction.channelId;
+    if (SessionManager.hasSessionFor(channelID)) {
       await interaction.reply(
-        'Woah! Please finish your current trivia session before attempting to start another.',
+        'Woah! This channel already has an active trivia session.',
         {fetchReply: true}
       );
       return;
     }
 
     await interaction.reply('Starting session!');
-    sessionManager.createSession(interaction.user.id);
 
     const [category, count, answerTimeInSeconds, questionDelayInSeconds] =
       getInputArguments(interaction);
-
     const questions = PoolManager.generateBatch(category, count);
-
     const triviaSession = new TriviaSession(
       interaction,
       questions,
-      answerTimeInSeconds
+      answerTimeInSeconds,
+      questionDelayInSeconds
     );
-
-    while (triviaSession.hasNextQuestion()) {
-      await triviaSession.askQuestion();
-      await wait(questionDelayInSeconds);
-    }
-
-    await triviaSession.endSession();
-    sessionManager.deleteSession(interaction.user.id);
+    await SessionManager.create(channelID, triviaSession);
+    await SessionManager.delete(channelID);
   },
 };
-
-/**
- * Wait for s seconds.
- * @param {number} s The amount of seconds to wait
- */
-function wait(s) {
-  return new Promise((resolve) => setTimeout(resolve, s * 1000));
-}
 
 function getInputArguments(interaction) {
   return [
