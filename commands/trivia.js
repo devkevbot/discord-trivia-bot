@@ -1,5 +1,6 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const SessionManager = require('~/lib/SessionManager');
+const TriviaSession = require('~/lib/TriviaSession');
 const PoolManager = require('~/lib/PoolManager');
 
 const sessionManager = new SessionManager();
@@ -37,57 +38,13 @@ module.exports = {
 
     const category = interaction.options.getString('category');
     const count = interaction.options.getNumber('count');
-    const questionPool = PoolManager.generateBatch(category, count);
+    const questions = PoolManager.generateBatch(category, count);
 
-    let questionNumber = 1;
-
-    for (const selected of questionPool) {
-      await askQuestion(
-        interaction,
-        selected,
-        questionNumber,
-        questionPool.length
-      );
+    const triviaSession = new TriviaSession(interaction, questions);
+    while (triviaSession.hasNextQuestion()) {
+      await triviaSession.askQuestion();
     }
 
     sessionManager.deleteSession(interaction.user.id);
   },
 };
-
-async function askQuestion(
-  interaction,
-  selected,
-  questionNumber,
-  questionCount
-) {
-  const filter = (response) => {
-    return selected.answers.some(
-      (answer) => answer.toLowerCase() === response.content.toLowerCase()
-    );
-  };
-
-  await interaction.channel.send(
-    `Question #${questionNumber} of ${questionCount}: ${selected.question}`
-  );
-
-  const answerTime = process.hrtime();
-
-  try {
-    const collected = await interaction.channel.awaitMessages({
-      filter,
-      max: 1,
-      time: 5000,
-      errors: ['time'],
-    });
-    const timeTaken = process.hrtime(answerTime)[0];
-    await interaction.followUp(
-      `${collected.first().author} got the correct answer in ${timeTaken}s!`
-    );
-  } catch {
-    interaction.followUp(
-      `Time is up! Correct answer(s): \n${selected.answers
-        .map((a) => `- ${a}`)
-        .join('\n')}`
-    );
-  }
-}
