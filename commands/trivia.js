@@ -74,6 +74,7 @@ module.exports = {
       delayInSeconds
     );
     await SessionManager.start(channelID, triviaSession);
+    await SessionManager.stop(channelID);
   },
 };
 

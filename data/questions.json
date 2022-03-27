@@ -3,5 +3,10 @@
     "category": "History",
     "question": "test",
     "answers": ["a", "b"]
+  },
+  {
+    "category": "History",
+    "question": "test",
+    "answers": ["a", "b"]
   }
 ]
