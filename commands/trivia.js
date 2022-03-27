@@ -64,17 +64,16 @@ module.exports = {
 
     await interaction.reply('Starting session!');
 
-    const [category, count, answerTimeInSeconds, questionDelayInSeconds] =
+    const [category, count, durationInSeconds, delayInSeconds] =
       getInputArguments(interaction);
 
     const triviaSession = new TriviaSession(
       interaction,
       QuestionPool.generate(category, count),
-      answerTimeInSeconds,
-      questionDelayInSeconds
+      durationInSeconds,
+      delayInSeconds
     );
-    await SessionManager.create(channelID, triviaSession);
-    await SessionManager.delete(channelID);
+    await SessionManager.start(channelID, triviaSession);
   },
 };
 

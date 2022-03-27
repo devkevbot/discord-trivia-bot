@@ -14,7 +14,7 @@ module.exports = {
         'Stopping active trivia session for the current channel.',
         {fetchReply: true}
       );
-      await SessionManager.delete(channelId);
+      await SessionManager.stop(channelId);
       return;
     }
 
