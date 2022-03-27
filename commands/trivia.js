@@ -55,10 +55,10 @@ module.exports = {
 
     const [category, count, answerTimeInSeconds, questionDelayInSeconds] =
       getInputArguments(interaction);
-    const questions = PoolManager.generateBatch(category, count);
+
     const triviaSession = new TriviaSession(
       interaction,
-      questions,
+      PoolManager.generateBatch(category, count),
       answerTimeInSeconds,
       questionDelayInSeconds
     );
