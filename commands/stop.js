@@ -17,5 +17,10 @@ module.exports = {
       await SessionManager.delete(channelId);
       return;
     }
+
+    await interaction.reply(
+      'No active trivia session for the current channel.',
+      {fetchReply: true}
+    );
   },
 };
