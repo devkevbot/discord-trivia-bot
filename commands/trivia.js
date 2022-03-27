@@ -2,6 +2,8 @@ const {SlashCommandBuilder} = require('@discordjs/builders');
 const SessionManager = require('~/lib/SessionManager');
 const TriviaSession = require('~/lib/TriviaSession');
 const PoolManager = require('~/lib/PoolManager');
+const questions = require('~/data/questions.json');
+const _ = require('lodash');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,7 +14,12 @@ module.exports = {
         .setName('category')
         .setDescription('The category of questions')
         .setRequired(true)
-        .addChoice('History', 'history')
+        .addChoices([
+          ...Object.keys(_.groupBy(questions, 'category')).map((category) => [
+            _.startCase(category),
+            category,
+          ]),
+        ])
     )
     .addNumberOption((option) =>
       option
@@ -28,18 +35,22 @@ module.exports = {
           'The amount of time given to answer a question, in seconds'
         )
         .setRequired(true)
-        .addChoice('10', 10)
-        .addChoice('20', 20)
-        .addChoice('30', 30)
+        .addChoices([
+          ['10', 10],
+          ['20', 20],
+          ['30', 30],
+        ])
     )
     .addNumberOption((option) =>
       option
         .setName('delay')
         .setDescription('The time between questions, in seconds')
         .setRequired(true)
-        .addChoice('10', 10)
-        .addChoice('20', 20)
-        .addChoice('30', 30)
+        .addChoices([
+          ['10', 10],
+          ['20', 20],
+          ['30', 30],
+        ])
     ),
   async execute(interaction) {
     const channelID = interaction.channelId;
