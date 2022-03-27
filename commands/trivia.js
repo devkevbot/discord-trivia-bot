@@ -1,7 +1,7 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const SessionManager = require('~/lib/SessionManager');
 const TriviaSession = require('~/lib/TriviaSession');
-const PoolManager = require('~/lib/PoolManager');
+const QuestionPool = require('~/lib/QuestionPool');
 const questions = require('~/data/questions.json');
 const _ = require('lodash');
 
@@ -69,7 +69,7 @@ module.exports = {
 
     const triviaSession = new TriviaSession(
       interaction,
-      PoolManager.generateBatch(category, count),
+      QuestionPool.generate(category, count),
       answerTimeInSeconds,
       questionDelayInSeconds
     );
