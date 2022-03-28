@@ -23,13 +23,6 @@ module.exports = {
     )
     .addNumberOption((option) =>
       option
-        .setName('count')
-        .setDescription('The number of questions')
-        .setRequired(true)
-        .addChoice('5', 5)
-    )
-    .addNumberOption((option) =>
-      option
         .setName('duration')
         .setDescription(
           'The amount of time given to answer a question, in seconds'
@@ -64,12 +57,12 @@ module.exports = {
 
     await interaction.reply('Starting session!');
 
-    const [category, count, durationInSeconds, delayInSeconds] =
+    const [category, durationInSeconds, delayInSeconds] =
       getInputArguments(interaction);
 
     const triviaSession = new TriviaSession(
       interaction,
-      QuestionPool.generate(category, count),
+      QuestionPool.generate(category),
       durationInSeconds,
       delayInSeconds
     );
@@ -81,7 +74,6 @@ module.exports = {
 function getInputArguments(interaction) {
   return [
     interaction.options.getString('category'),
-    interaction.options.getNumber('count'),
     interaction.options.getNumber('duration'),
     interaction.options.getNumber('delay'),
   ];
