@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "lint": "eslint src test",
-    "lint:fix": "npm run lint -- --fix",
-    "deploy:commands": "node deploy-commands.js"
+    "commands:prod": "node deploy-commands.js production",
+    "commands:dev": "node deploy-commands.js dev",
+    "update:questions": "node update-questions.js"
   },
   "author": "Kevin Jerome",
   "license": "ISC",
@@ -21,9 +21,11 @@
     "module-alias": "2.2.2"
   },
   "devDependencies": {
+    "axios": "0.26.1",
     "eslint": "8.11.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
+    "he": "1.2.0",
     "nodemon": "2.0.15",
     "prettier": "2.6.1"
   },

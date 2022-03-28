@@ -16,13 +16,20 @@ for (const file of commandFiles) {
 
 const rest = new REST({version: '9'}).setToken(process.env.DISCORD_BOT_TOKEN);
 
+const env = process.argv[2];
+if (env === 'production') {
+  console.log('Deploying commands to production!');
+} else {
+  console.log('Deploying commands to development!');
+}
+
 rest
   .put(
     Routes.applicationGuildCommands(
       process.env.CLIENT_ID,
-      process.env.TEST === 'true'
-        ? process.env.TEST_GUILD_ID
-        : process.env.SUNNY_GUILD_ID
+      env === 'production'
+        ? process.env.PRODUCTION_GUILD_ID
+        : process.env.DEVELOPMENT_GUILD_ID
     ),
     {
       body: commands,
